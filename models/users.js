@@ -1,5 +1,6 @@
 "use strict";
 const Sequelize = require("sequelize");
+const bcrypt = require("bcrypt");
 
 module.exports = (sequelize) => {
   class Users extends Sequelize.Model {}
@@ -13,19 +14,44 @@ module.exports = (sequelize) => {
       firstName: {
         type: Sequelize.STRING,
         allowNull: false,
+        validate: {
+          notNull: {
+            msg: "A first name must be provided",
+          },
+          notEmpty: {
+            msg: "Please enter your first name",
+          },
+        },
       },
-
       lastName: {
         type: Sequelize.STRING,
         allowNull: false,
+        validate: {
+          notNull: {
+            msg: "A last name must be provided",
+          },
+          notEmpty: {
+            msg: "Please enter your last name",
+          },
+        },
       },
-
       emailAddress: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: {
+          msg: "Email address already in use",
+        },
+        validate: {
+          notNull: {
+            msg: "An email address is required",
+          },
+          isEmail: {
+            msg: "Please enter a valid email address",
+          },
+        },
       },
       password: {
-        type: Sequelize.VIRTUAL,
+        type: Sequelize.STRING,
         allowNull: false,
         validate: {
           notNull: {
