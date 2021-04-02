@@ -4,9 +4,9 @@ const express = require("express");
 
 // Construct a router instance.
 const router = express.Router();
-const Users = require("./models").Users;
-const { asyncHandler } = require("./middleware/asyncHandler");
-const { authenticateUser } = require("./middleware/auth-user");
+const Users = require("../models").Users;
+const { asyncHandler } = require("../middleware/asyncHandler");
+const { authenticateUser } = require("../middleware/auth-user");
 
 // Route that returns a list of users.
 router.get("/users", authenticateUser, async (req, res) => {

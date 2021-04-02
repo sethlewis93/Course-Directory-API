@@ -41,6 +41,7 @@ module.exports = (sequelize) => {
         },
       },
 
+      /*
       confirmedPassword: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -56,6 +57,7 @@ module.exports = (sequelize) => {
           },
         },
       },
+      */
     },
     { sequelize }
   );
