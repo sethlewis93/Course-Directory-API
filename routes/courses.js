@@ -44,8 +44,7 @@ router.post(
   asyncHandler(async (req, res) => {
     try {
       await Courses.create(req.body);
-      // set Location header to URI for newly created course
-      res.status(201);
+      res.status(201).end();
     } catch (error) {
       if (
         error.name === "SequelizeValidationError" ||
@@ -69,7 +68,7 @@ router.put(
       course = await Courses.findByPk(req.params.id);
       if (course) {
         await course.update(req.body);
-        res.status(204);
+        res.status(204).end();
       } else {
         const err = new Error();
         err.status = 404;
@@ -95,7 +94,7 @@ router.delete(
     const course = await Courses.findByPk(req.params.id);
     if (course) {
       await course.destroy();
-      res.status(204);
+      res.status(204).end();
     } else {
       const err = new Error();
       err.status = 404;

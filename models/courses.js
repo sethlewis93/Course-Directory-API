@@ -10,6 +10,10 @@ module.exports = (sequelize) => {
         primaryKey: true,
         autoIncrement: true,
       },
+      title: {
+        type: Sequelize.STRING,
+        allowNull: false,
+      },
       description: {
         type: Sequelize.STRING,
         allowNull: false,
@@ -17,12 +21,10 @@ module.exports = (sequelize) => {
 
       estimatedTime: {
         type: Sequelize.STRING,
-        allowNull: false,
       },
 
       materialsNeeded: {
         type: Sequelize.STRING,
-        allowNull: false,
       },
     },
     { sequelize }
@@ -33,7 +35,7 @@ module.exports = (sequelize) => {
       as: "student",
       foreignKey: {
         fieldName: "userId",
-        allowNull: false,
+        // allowNull: false,
       },
     });
   };
