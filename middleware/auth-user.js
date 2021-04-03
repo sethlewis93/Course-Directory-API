@@ -8,15 +8,18 @@ const bcrypt = require("bcrypt");
 exports.authenticateUser = async (req, res, next) => {
   let message;
 
+  // Parse user credentials from Auth header
   const credentials = auth(req);
-
+  console.log(credentials);
+  // Verify user credentials are available
   if (credentials) {
-    const user = await Users.findOne({ where: { username: credentials.name } });
+    const user = await Users.findOne({
+      where: { firstName: credentials.name, password: credentials.pass },
+    });
+    // Verify user was successfully retrieved from database
     if (user) {
-      const authenticated = bcrypt.compareSync(
-        credentials.pass,
-        user.confirmedPassword
-      );
+      // compareSync() compares user password from Auth header to encrypted password from database
+      const authenticated = bcrypt.compareSync(credentials.pass, user.password);
       if (authenticated) {
         console.log(`Authentication successful for username: ${user.username}`);
 

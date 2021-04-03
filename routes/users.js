@@ -9,26 +9,25 @@ const Users = require("../models").Users;
 const { asyncHandler } = require("../middleware/asyncHandler");
 const { authenticateUser } = require("../middleware/auth-user");
 
-// Route that returns a list of users.
+// Route that returns a list of users; AND
+// GETs authentication middleware
 router.get(
   "/users",
+  authenticateUser,
   asyncHandler(async (req, res) => {
+    // Retrieve current authenticated user info
+    const user = req.currentUser;
+    console.log(user);
+
+    // Return current user's information
+    res.json({
+      firstName: user.firstName,
+    });
+
     const users = await Users.findAll();
     res.json(users);
   })
 );
-
-// GET USERS AUTHENTICATION MIDDLEWARE
-/*
-router.get("/users", authenticateUser, async (req, res) => {
-  const user = req.currentUser;
-
-  res.json({
-    firstName: user.firstName,
-    lastName: user.lastName,
-  });
-});
-*/
 
 // Route that creates a new user.
 router.post(
