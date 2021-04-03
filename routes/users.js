@@ -34,19 +34,9 @@ router.get("/users", authenticateUser, async (req, res) => {
 router.post(
   "/users",
   asyncHandler(async (req, res) => {
-    const user = req.body;
-    const errors = [];
     try {
-      const users = await Users.create(user);
-      // Validate that we have a `password` value.
-      let password = user.password;
-      console.log(password);
-      if (!password) {
-        errors.push('Please provide a value for "password"');
-      } else {
-        password = bcrypt.hashSync(password, 10);
-        res.status(201).json({ message: "Account successfully created!" });
-      }
+      await Users.create(req.body);
+      res.status(201).json({ message: "Account successfully created!" });
     } catch (error) {
       console.log("ERROR: ", error.name);
       if (
