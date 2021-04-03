@@ -1,6 +1,7 @@
 "use strict";
 
 const express = require("express");
+const bcrypt = require("bcrypt");
 
 // Construct a router instance.
 const router = express.Router();
@@ -12,7 +13,7 @@ const { authenticateUser } = require("../middleware/auth-user");
 router.get(
   "/users",
   asyncHandler(async (req, res) => {
-    let users = await Users.findAll();
+    const users = await Users.findAll();
     res.json(users);
   })
 );
@@ -33,9 +34,19 @@ router.get("/users", authenticateUser, async (req, res) => {
 router.post(
   "/users",
   asyncHandler(async (req, res) => {
+    const user = req.body;
+    const errors = [];
     try {
-      await Users.create(req.body);
-      res.status(201).json({ message: "Account successfully created!" });
+      const users = await Users.create(user);
+      // Validate that we have a `password` value.
+      let password = user.password;
+      console.log(password);
+      if (!password) {
+        errors.push('Please provide a value for "password"');
+      } else {
+        password = bcrypt.hashSync(password, 10);
+        res.status(201).json({ message: "Account successfully created!" });
+      }
     } catch (error) {
       console.log("ERROR: ", error.name);
       if (
