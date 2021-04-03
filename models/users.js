@@ -66,7 +66,6 @@ module.exports = (sequelize) => {
           },
         },
       },
-
       /*
       confirmedPassword: {
         type: Sequelize.STRING,
