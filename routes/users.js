@@ -17,11 +17,10 @@ router.get(
   asyncHandler(async (req, res) => {
     // Retrieve current authenticated user info
     const user = req.currentUser;
-    console.log(user);
-
     // Return current user's information
     res.json({
-      firstName: user.firstName,
+      name: user.username,
+      pass: user.password,
     });
 
     const users = await Users.findAll();
