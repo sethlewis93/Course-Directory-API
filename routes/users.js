@@ -39,8 +39,10 @@ router.get(
 router.post(
   "/users",
   asyncHandler(async (req, res) => {
+    const id = res.params.id;
     try {
       await Users.create(req.body);
+      res.location("/");
       res.status(201).json({ message: "Account successfully created!" });
     } catch (error) {
       console.log("ERROR: ", error.name);

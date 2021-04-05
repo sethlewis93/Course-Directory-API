@@ -41,9 +41,20 @@ router.get(
 // Route that creates a new course.
 router.post(
   "/courses",
+  authenticateUser,
   asyncHandler(async (req, res) => {
+    // Set current user req object to 'user' variable
+    const user = req.currentUser;
+    // Return current user's information
+    res.json({
+      name: user.username,
+      pass: user.password,
+    });
+
+    let course;
     try {
-      await Courses.create(req.body);
+      course = await Courses.create(req.body);
+      res.location(`/courses/${course.id}`);
       res.status(201).end();
     } catch (error) {
       if (
@@ -62,7 +73,16 @@ router.post(
 // Route that updates a course
 router.put(
   "/courses/:id",
+  authenticateUser,
   asyncHandler(async (req, res, next) => {
+    // Set current user req object to 'user' variable
+    const user = req.currentUser;
+    // Return current user's information
+    res.json({
+      name: user.username,
+      pass: user.password,
+    });
+
     let course;
     try {
       course = await Courses.findByPk(req.params.id);
@@ -90,7 +110,16 @@ router.put(
 
 router.delete(
   "/courses/:id",
+  authenticateUser,
   asyncHandler(async (req, res, next) => {
+    // Set current user req object to 'user' variable
+    const user = req.currentUser;
+    // Return current user's information
+    res.json({
+      name: user.username,
+      pass: user.password,
+    });
+
     const course = await Courses.findByPk(req.params.id);
     if (course) {
       await course.destroy();
