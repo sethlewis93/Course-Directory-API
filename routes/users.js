@@ -16,14 +16,12 @@ router.get(
   asyncHandler(async (req, res) => {
     // Retrieve current authenticated user info
     const user = req.currentUser;
+    console.log(`CURRENT USER: ${req.currentUser}`);
     // Return current user's information
     res.json({
       name: user.username,
       pass: user.password,
     });
-
-    const users = await Users.findAll();
-    res.json(users);
   })
 );
 
@@ -31,7 +29,6 @@ router.get(
 router.post(
   "/users",
   asyncHandler(async (req, res) => {
-    const id = res.params.id;
     try {
       await Users.create(req.body);
       res.location("/");

@@ -29,7 +29,7 @@ router.get(
     const course = await Courses.findByPk(req.params.id, {
       include: [
         {
-          model: Users,
+          model: Users.firstName,
           as: "student",
         },
       ],
