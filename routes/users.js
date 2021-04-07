@@ -9,14 +9,6 @@ const Users = require("../models").Users;
 const { asyncHandler } = require("../middleware/asyncHandler");
 const { authenticateUser } = require("../middleware/auth-user");
 
-// Route that returns a list of users
-router.get(
-  "/users",
-  asyncHandler(async (req, res) => {
-    const users = await Users.findAll();
-    res.json(users);
-  })
-);
 // Authenticated route that returns list of users
 router.get(
   "/users",
