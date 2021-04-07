@@ -19,7 +19,7 @@ router.get(
     console.log(`CURRENT USER: ${req.currentUser}`);
     // Return current user's information
     res.json({
-      name: user.username,
+      name: user.emailAddress,
       pass: user.password,
     });
   })
