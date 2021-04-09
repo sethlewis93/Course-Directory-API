@@ -6,6 +6,7 @@ const morgan = require("morgan");
 const users = require("./routes/users");
 const courses = require("./routes/courses");
 const sequelize = require("./models/index").sequelize;
+const cors = require("cors");
 
 // variable to enable global error logging
 const enableGlobalErrorLogging =
@@ -18,6 +19,8 @@ app.use(express.json());
 
 // setup morgan which gives us http request logging
 app.use(morgan("dev"));
+
+app.use(cors());
 
 // Database connection point
 (async () => {

@@ -14,14 +14,16 @@ router.get(
   "/users",
   authenticateUser,
   asyncHandler(async (req, res) => {
-    // Retrieve current authenticated user info
+    // Retrieve current user info
     const user = req.currentUser;
-    console.log(`CURRENT USER: ${req.currentUser}`);
-    // Return current user's information
-    res.json({
-      name: user.emailAddress,
-      pass: user.password,
-    });
+    // Retrieve authenticated user info
+    const authUser = await Users.findByPk(user.id);
+    // If current user is an authenticated user, return info in JSON
+    if (authUser) {
+      res.json(authUser);
+    } else {
+      throw new Error();
+    }
   })
 );
 
@@ -33,6 +35,7 @@ router.post(
       await Users.create(req.body);
       res.location("/");
       res.status(201).json({ message: "Account successfully created!" });
+      res.end();
     } catch (error) {
       console.log("ERROR: ", error.name);
       if (

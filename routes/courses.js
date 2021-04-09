@@ -29,7 +29,7 @@ router.get(
     const course = await Courses.findByPk(req.params.id, {
       include: [
         {
-          model: Users.firstName,
+          model: Users,
           as: "student",
         },
       ],
@@ -44,16 +44,9 @@ router.post(
   authenticateUser,
   asyncHandler(async (req, res) => {
     let course;
-    // Set current user req object to 'user' variable
-    const user = req.currentUser;
     try {
       course = await Courses.create(req.body);
       res.location(`/courses/${course.id}`);
-      // Return current user's information
-      res.json({
-        name: user.emailAddress,
-        pass: user.password,
-      });
       res.status(201).end();
     } catch (error) {
       if (
@@ -75,17 +68,10 @@ router.put(
   authenticateUser,
   asyncHandler(async (req, res, next) => {
     let course;
-    // Set current user req object to 'user' variable
-    const user = req.currentUser;
     try {
       course = await Courses.findByPk(req.params.id);
       if (course) {
         await course.update(req.body);
-        // Return current user's information
-        res.json({
-          name: user.emailAddress,
-          pass: user.password,
-        });
         res.status(204).end();
       } else {
         const err = new Error();
@@ -111,15 +97,8 @@ router.delete(
   authenticateUser,
   asyncHandler(async (req, res, next) => {
     const course = await Courses.findByPk(req.params.id);
-    // Set current user req object to 'user' variable
-    const user = req.currentUser;
     if (course) {
       await course.destroy();
-      // Return current user's information
-      res.json({
-        name: user.emailAddress,
-        pass: user.password,
-      });
       res.status(204).end();
     } else {
       const err = new Error();
